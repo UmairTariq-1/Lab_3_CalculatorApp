@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple Calculator</string>
+    <string name="clear">C</string>
+    <string name="back">⌫</string>
+    <string name="sign">±</string>
+</resources>
