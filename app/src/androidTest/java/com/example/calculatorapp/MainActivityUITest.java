@@ -11,8 +11,13 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.Matchers.allOf;
+
+import com.google.android.material.button.MaterialButton;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -51,15 +56,23 @@ public class MainActivityUITest {
 
     @Test
     public void Given_Zero_When_UserPressesReciprocal_Then_DisplayShowsError() {
-        // Clear display
+        // Clear display first
         onView(withText("C")).perform(click());
 
-        // 0 -> 1/x -> Error
-        onView(withText("0")).perform(click());
+        // Click the ZERO BUTTON, not the display
+        onView(allOf(
+                withText("0"),
+                isAssignableFrom(MaterialButton.class)
+        )).perform(click());
+
+        // Click reciprocal button
         onView(withText("1/x")).perform(click());
 
-        onView(withId(R.id.txtDisplay)).check(matches(withText("Error")));
+        // Now check the DISPLAY by ID so there is no ambiguity
+        onView(withId(R.id.txtDisplay))
+                .check(matches(withText("Error")));
     }
+
 
     @Test
     public void Given_TwoDigitNumber_When_UserPressesBack_Then_LastDigitIsRemoved() {
